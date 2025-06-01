@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public final class Utils {
 
-    public static List<List<String>> readCSV(String fileName) {
+    public static List<List<String>> readCSV(String fileName, String separator) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             return br.lines()
-                    .map(line -> line.split(","))
+                    .map(line -> line.split(separator))
                     .map(values -> Arrays.stream(values)
                             .map(String::trim)
                             .collect(Collectors.toList()))
@@ -40,6 +40,17 @@ public final class Utils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static String cleanNumberFormat(String number) {
+        // Remove all dots first
+        String withoutDots = number.replaceAll("\\.", "");
+        // If there's a comma, remove everything after it
+        int commaIndex = withoutDots.indexOf(",");
+        if (commaIndex != -1) {
+            return withoutDots.substring(0, commaIndex);
+        }
+        return withoutDots;
     }
 }
 
