@@ -8,14 +8,21 @@ import java.util.function.BiFunction;
 
 
 public interface ProcessSheet {
-
-    // Using BiFunction
-    default Integer processSheet(List<List<String>> weatherSheet, BiFunction<String, String, Double> calculator) {
-        return weatherSheet.stream()
+    default Integer processSheet(
+            List<List<String>> sheet,
+            BiFunction<String, String, Double> calculator,
+            int idColumnIndex,
+            int firstValueColumnIndex,
+            int secondValueColumnIndex
+    ) {
+        return sheet.stream()
                 .skip(1)
                 .map(row -> new AbstractMap.SimpleEntry<>(
-                        Integer.parseInt(row.get(0)),
-                        calculator.apply(row.get(1), row.get(2))
+                        Integer.parseInt(row.get(idColumnIndex)),
+                        calculator.apply(
+                                row.get(firstValueColumnIndex),
+                                row.get(secondValueColumnIndex)
+                        )
                 ))
                 .min(Comparator.comparingDouble(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
