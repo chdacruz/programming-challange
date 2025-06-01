@@ -1,6 +1,6 @@
 package de.bcxp.challenge;
 
-import static de.bcxp.challenge.utils.Utils.readCSV;
+import de.bcxp.challenge.services.WeatherService;
 
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
@@ -14,15 +14,12 @@ public final class App {
      */
     public static void main(String... args) {
 
-        //Read file
-        var weather = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
-
         // Your preparation code …
+        WeatherService weatherService = new WeatherService();
 
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
+        //String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
+        Integer dayWithSmallestTempSpread = weatherService.getSmallestSpread();
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
 
-        String countryWithHighestPopulationDensity = "Some country"; // Your population density analysis function call …
-        System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
     }
 }
