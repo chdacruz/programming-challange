@@ -14,7 +14,7 @@ public final class Utils {
     public static List<List<String>> readCSV(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             return br.lines()
-                    .map(line -> line.split(","))
+                    .map(line -> line.split("[,;]"))
                     .map(values -> Arrays.stream(values)
                             .map(String::trim)
                             .collect(Collectors.toList()))
