@@ -8,7 +8,8 @@ public class WeatherService implements ProcessSheet {
         return processSheet(
                 weatherSheet,
                 (val1, val2) -> Double.parseDouble(val1) - Double.parseDouble(val2),
-                0, 1, 2
+                0, 1, 2,
+                Integer.class
         );
     }
 }

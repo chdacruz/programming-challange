@@ -1,5 +1,6 @@
 package de.bcxp.challenge;
 
+import de.bcxp.challenge.services.CountriesService;
 import de.bcxp.challenge.services.WeatherService;
 
 import static de.bcxp.challenge.utils.Utils.readCSV;
@@ -18,10 +19,19 @@ public final class App {
 
         // Your preparation code …
         WeatherService weatherService = new WeatherService();
+        CountriesService countriesService = new CountriesService();
 
+        //Weather
         var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
+
         Integer dayWithSmallestTempSpread = weatherService.getSmallestSpread(weatherSheet);
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
+
+        //Countries
+        var countriesSheet = readCSV("src/main/resources/de/bcxp/challenge/countries.csv");
+
+        String countryWithHighestPopulationDensity = countriesService.getCountryWithHighestPopDensity(countriesSheet);
+        System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
 
     }
 }
