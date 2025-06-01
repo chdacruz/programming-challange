@@ -5,13 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static de.bcxp.challenge.utils.Utils.readCSV;
-
 public class WeatherService {
 
-    public Integer getSmallestSpread() {
-        var weather = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
-        return processSheet(weather);
+    public Integer getSmallestSpread(List<List<String>> weatherSheet) {
+        return processSheet(weatherSheet);
     }
 
     private Integer processSheet(List<List<String>> weatherSheet) {
