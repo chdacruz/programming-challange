@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static de.bcxp.challenge.utils.Utils.readCSV;
-import static org.junit.jupiter.api.Assertions.*;
+import static de.bcxp.challenge.utils.Utils.isInteger;
+import static de.bcxp.challenge.utils.Utils.isNumeric;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Arrays;
@@ -32,6 +36,30 @@ class WeatherServiceTest {
             assertNotNull(result);
             // The actual expected value should be verified against the data in weather.csv
             assertEquals(14, (int) result);
+        }
+
+        /**
+         * Validates that the first three columns of the file are Day,MxT and MnT
+         */
+        @Test
+        void validateCSVStructure() {
+            // Arrange
+            var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
+
+            // Act & Assert
+            //Headers
+            List<String> header = weatherSheet.get(0);
+            assertTrue(header.size() >= 3);
+            assertEquals("Day", header.get(0));
+            assertEquals("MxT", header.get(1));
+            assertEquals("MnT", header.get(2));
+
+            //Data
+            List<String> dataRow = weatherSheet.get(1);
+            assertTrue(dataRow.size() >= 3);
+            assertTrue(isInteger(dataRow.get(0)));
+            assertTrue(isNumeric(dataRow.get(1)));
+            assertTrue(isNumeric(dataRow.get(2)));
         }
 
         @Test
