@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 class UtilsTest {
 
+    private static final String COMMA_SEPARATOR = ",";
+
     @Nested
     class ReadCSVTests {
         @Test
@@ -23,7 +25,7 @@ class UtilsTest {
             File tempFile = createTempCSVFile(csvContent);
 
             // Act
-            List<List<String>> result = Utils.readCSV(tempFile.getPath());
+            List<List<String>> result = Utils.readCSV(tempFile.getPath(), COMMA_SEPARATOR);
 
             // Assert
             assertNotNull(result);
@@ -42,7 +44,7 @@ class UtilsTest {
             File tempFile = createTempCSVFile(csvContent);
 
             // Act
-            List<List<String>> result = Utils.readCSV(tempFile.getPath());
+            List<List<String>> result = Utils.readCSV(tempFile.getPath(), COMMA_SEPARATOR);
 
             // Assert
             assertNotNull(result);
@@ -58,7 +60,7 @@ class UtilsTest {
             File tempFile = createTempCSVFile(csvContent);
 
             // Act
-            List<List<String>> result = Utils.readCSV(tempFile.getPath());
+            List<List<String>> result = Utils.readCSV(tempFile.getPath(), COMMA_SEPARATOR);
 
             // Assert
             assertNotNull(result);
@@ -74,7 +76,7 @@ class UtilsTest {
             String nonExistentFilePath = "nonexistent.csv";
 
             // Act & Assert
-            assertThrows(ChallengeException.CSVReadException.class, () -> Utils.readCSV(nonExistentFilePath));
+            assertThrows(ChallengeException.CSVReadException.class, () -> Utils.readCSV(nonExistentFilePath, COMMA_SEPARATOR));
         }
 
         @Test
@@ -84,7 +86,7 @@ class UtilsTest {
             File tempFile = createTempCSVFile(csvContent);
 
             // Act
-            List<List<String>> result = Utils.readCSV(tempFile.getPath());
+            List<List<String>> result = Utils.readCSV(tempFile.getPath(), COMMA_SEPARATOR);
 
             // Assert
             assertNotNull(result);

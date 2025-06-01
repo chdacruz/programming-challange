@@ -11,6 +11,9 @@ import static de.bcxp.challenge.utils.Utils.readCSV;
  */
 public final class App {
 
+
+    private static final String WEATHER_SEPARATOR = ",";
+    private static final String COUNTRIES_SEPARATOR = ";";
     /**
      * This is the main entry method of your program.
      * @param args The CLI arguments passed
@@ -22,13 +25,13 @@ public final class App {
         CountriesService countriesService = new CountriesService();
 
         //Weather
-        var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
+        var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv", WEATHER_SEPARATOR);
 
         Integer dayWithSmallestTempSpread = weatherService.getSmallestSpread(weatherSheet);
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
 
         //Countries
-        var countriesSheet = readCSV("src/main/resources/de/bcxp/challenge/countries.csv");
+        var countriesSheet = readCSV("src/main/resources/de/bcxp/challenge/countries.csv", COUNTRIES_SEPARATOR);
 
         String countryWithHighestPopulationDensity = countriesService.getCountryWithHighestPopDensity(countriesSheet);
         System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);

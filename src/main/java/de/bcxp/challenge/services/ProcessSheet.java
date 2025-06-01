@@ -19,7 +19,8 @@ public interface ProcessSheet {
             int idColumnIndex,
             int firstValueColumnIndex,
             int secondValueColumnIndex,
-            ValueConverter<T> converter
+            ValueConverter<T> converter,
+            boolean findMax
     ) {
         return sheet.stream()
                 .skip(1)
@@ -30,7 +31,11 @@ public interface ProcessSheet {
                                 row.get(secondValueColumnIndex)
                         )
                 ))
-                .min(Comparator.comparingDouble(Map.Entry::getValue))
+                //This min max logic could be simplified by overloading the method, then converter logic could also be droped
+                .min(findMax ?
+                        (e1, e2) -> Double.compare(e2.getValue(), e1.getValue()) :  // reversed for max
+                        Comparator.comparingDouble(AbstractMap.SimpleEntry::getValue)    // normal for min
+                )
                 .map(Map.Entry::getKey)
                 .orElse(converter.defaultValue());
     }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 class WeatherServiceTest {
 
+    private static final String WEATHER_SEPARATOR = ",";
     private WeatherService weatherService;
 
     @Nested
@@ -29,7 +30,7 @@ class WeatherServiceTest {
         @Test
         void returnsCorrectDay() {
             // Act
-            var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
+            var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv", WEATHER_SEPARATOR);
             Integer result = weatherService.getSmallestSpread(weatherSheet);
 
             // Assert
@@ -44,7 +45,7 @@ class WeatherServiceTest {
         @Test
         void validateCSVStructure() {
             // Arrange
-            var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv");
+            var weatherSheet = readCSV("src/main/resources/de/bcxp/challenge/weather.csv", WEATHER_SEPARATOR);
 
             // Act & Assert
             //Headers
