@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-
 public interface ProcessSheet {
+
+    interface ValueConverter<T> {
+        T convert(String value);
+        T defaultValue();
+    }
 
     default <T> T processSheet(
             List<List<String>> sheet,
@@ -15,41 +19,33 @@ public interface ProcessSheet {
             int idColumnIndex,
             int firstValueColumnIndex,
             int secondValueColumnIndex,
-            Class<T> keyType
+            ValueConverter<T> converter
     ) {
-        var result = sheet.stream()
+        return sheet.stream()
                 .skip(1)
                 .map(row -> new AbstractMap.SimpleEntry<>(
-                        convertKey(row.get(idColumnIndex), keyType),
+                        converter.convert(row.get(idColumnIndex)),
                         calculator.apply(
                                 row.get(firstValueColumnIndex),
                                 row.get(secondValueColumnIndex)
                         )
                 ))
                 .min(Comparator.comparingDouble(Map.Entry::getValue))
-                .map(Map.Entry::getKey);
-
-        return result.orElse(getDefaultValue(keyType));
+                .map(Map.Entry::getKey)
+                .orElse(converter.defaultValue());
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> T convertKey(String value, Class<T> keyType) {
-        if (keyType == Integer.class) {
-            return (T) Integer.valueOf(value);
-        } else if (keyType == String.class) {
-            return (T) value;
-        }
-        throw new IllegalArgumentException("Unsupported key type: " + keyType);
-    }
+    ValueConverter<String> STRING_CONVERTER = new ValueConverter<>() {
+        @Override
+        public String convert(String value) { return value; }
+        @Override
+        public String defaultValue() { return ""; }
+    };
 
-    @SuppressWarnings("unchecked")
-    private <T> T getDefaultValue(Class<T> keyType) {
-        if (keyType == Integer.class) {
-            return (T) Integer.valueOf(0);
-        } else if (keyType == String.class) {
-            return (T) "";
-        }
-        throw new IllegalArgumentException("Unsupported key type: " + keyType);
-    }
-
+    ValueConverter<Integer> INTEGER_CONVERTER = new ValueConverter<>() {
+        @Override
+        public Integer convert(String value) { return Integer.parseInt(value); }
+        @Override
+        public Integer defaultValue() { return 0; }
+    };
 }
